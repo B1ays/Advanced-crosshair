@@ -13,6 +13,8 @@ val accentLight = Color(0xff9ba6c1)
 val accentPrimary = Color(0xff7084b7)
 val accentSecondary = Color(0xff1e3160)
 
+val iconColor = Color(0xff476ee5)
+
 val powerButtonEnabledFocused = Color(0xff429d33)
 val powerButtonEnabledUnfocused = Color(0xff237b15)
 

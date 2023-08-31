@@ -2,7 +2,9 @@ package UI
 
 import Data.CrosshairState
 import UI.Components.CursorListenedIcon
+import UI.Icons.CrosshairTypeIcons
 import UI.Icons.Icons
+import UI.Icons.crosshairtypeicons.CrosshairStandart
 import UI.Icons.icons.*
 import UI.Screens.CSGOIntegrationScreen
 import UI.Screens.ColorSettingsScreen
@@ -19,6 +21,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.vector.RenderVectorGroup
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.FrameWindowScope
@@ -37,6 +41,19 @@ fun MainWindow(
     val isCrosshairEnabled by crosshairState.isShowed.collectAsState()
     var navigator: Navigator? by mutableStateOf(null)
 
+    val icon = with(CrosshairTypeIcons.CrosshairStandart) {
+        rememberVectorPainter(
+            defaultWidth = defaultWidth,
+            defaultHeight = defaultHeight,
+            viewportWidth = viewportWidth,
+            viewportHeight = viewportHeight,
+            name = name,
+            tintColor = iconColor,
+            tintBlendMode = tintBlendMode,
+            autoMirror = autoMirror,
+            content = { _, _ -> RenderVectorGroup(group = root) }
+        )
+    }
 
     Window(
         onCloseRequest = onClose,
@@ -44,6 +61,7 @@ fun MainWindow(
         transparent = true,
         undecorated = true,
         resizable = false,
+        icon = icon /**/,
         state = WindowState(
             isMinimized = false,
             width = 500.dp,

@@ -12,8 +12,8 @@ class Crosshair(
 
     private val color: Color get() = crosshairState.color.value
     private val strokeWidth: Float get() = crosshairState.strokeWidth.value
-    private val offset: Int get() = crosshairState.offsetFromCenter.value
-    private val lineLength: Int get() = crosshairState.lineLength.value
+    private val offset: Float get() = crosshairState.offsetFromCenter.value
+    private val lineLength: Float get() = crosshairState.lineLength.value
     private val type: CrosshairType get() = crosshairState.type.value
 
     public override fun paintComponent(g: Graphics) {
@@ -28,8 +28,8 @@ class Crosshair(
         with(type) {
             g2.draw(
                 Point(widthCenter, heightCenter),
-                offset,
-                lineLength
+                offset.toInt(),
+                lineLength.toInt()
             )
         }
     }

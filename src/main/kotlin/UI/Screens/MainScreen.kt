@@ -80,22 +80,22 @@ class MainScreen(private val crosshairState: CrosshairState): Screen {
                 .padding(DefaultPadding.CardDefaultPaddingMedium)
                 .fillMaxWidth(0.7F),
             title = "Size",
-            value = crosshairState.lineLength.collectAsState().value.toFloat(),
+            value = crosshairState.lineLength.collectAsState().value,
             range = 0F..100F,
             colors = SliderDefaults.colors(thumbColor = accentPrimary, activeTrackColor = accentDark)
         ) {
-            crosshairState.lineLength.value = it.toInt()
+            crosshairState.lineLength.value = it
         }
         SliderWithTitle(
             modifier = Modifier
                 .padding(DefaultPadding.CardDefaultPaddingMedium)
                 .fillMaxWidth(0.7F),
             title = "Offset from center",
-            value = crosshairState.offsetFromCenter.collectAsState().value.toFloat(),
+            value = crosshairState.offsetFromCenter.collectAsState().value,
             range = 0F..20F,
             colors = SliderDefaults.colors(thumbColor = accentPrimary, activeTrackColor = accentDark)
         ) {
-            crosshairState.offsetFromCenter.value = it.toInt()
+            crosshairState.offsetFromCenter.value = it
         }
         SliderWithTitle(
             modifier = Modifier

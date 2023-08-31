@@ -3,11 +3,19 @@ package UI
 import Data.CSGOEvents
 import Data.CrosshairState
 import Data.OVERLAY_SIZE
+import UI.Icons.CrosshairTypeIcons
+import UI.Icons.crosshairtypeicons.CrosshairStandart
+import UI.Theme.iconColor
 import Utils.setTransparent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.awt.ComposePanel
+import androidx.compose.ui.graphics.toAwtImage
+import androidx.compose.ui.graphics.vector.RenderVectorGroup
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.window.AwtWindow
 import kotlinx.coroutines.flow.MutableStateFlow
 import uk.oczadly.karl.csgsi.state.components.Weapon
@@ -51,6 +59,22 @@ fun CrosshairWindow(
     type
     playerState
 
+    val density = LocalDensity.current
+
+    val icon = with(CrosshairTypeIcons.CrosshairStandart) {
+        rememberVectorPainter(
+            defaultWidth = defaultWidth,
+            defaultHeight = defaultHeight,
+            viewportWidth = viewportWidth,
+            viewportHeight = viewportHeight,
+            name = name,
+            tintColor = iconColor,
+            tintBlendMode = tintBlendMode,
+            autoMirror = autoMirror,
+            content = { _, _ -> RenderVectorGroup(group = root) }
+        )
+    }
+
     val overlay = remember {
         Crosshair(crosshairState).apply {
             preferredSize = Dimension(OVERLAY_SIZE, OVERLAY_SIZE)
@@ -66,6 +90,10 @@ fun CrosshairWindow(
                 location = position
                 isAlwaysOnTop = true
                 isUndecorated = true
+                iconImage = icon.toAwtImage(
+                    density,
+                    LayoutDirection.Ltr
+                )
 
                 contentPane = overlay
                 setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE)
@@ -84,7 +112,7 @@ fun CrosshairWindow(
                 isEnabled
             }
             with(overlay) {
-                paintComponent(graphics)
+                paintComponents(graphics)
             }
             it.repaint()
         }

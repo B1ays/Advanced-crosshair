@@ -9,8 +9,8 @@ class CrosshairState {
 
     private val _isShowed = MutableStateFlow(true)
     private val _color = MutableStateFlow(Color.GREEN)
-    private val _lineLength = MutableStateFlow(10)
-    private val _offsetFromCenter = MutableStateFlow(3)
+    private val _lineLength = MutableStateFlow(10F)
+    private val _offsetFromCenter = MutableStateFlow(3F)
     private val _strokeWidth = MutableStateFlow(2F)
     private val _type = MutableStateFlow<CrosshairType>(CrosshairType.Standart)
 
@@ -21,9 +21,9 @@ class CrosshairState {
         get() = _isShowed
     val color: MutableStateFlow<Color>
         get() = _color
-    val lineLength: MutableStateFlow<Int>
+    val lineLength: MutableStateFlow<Float>
         get() = _lineLength
-    val offsetFromCenter: MutableStateFlow<Int>
+    val offsetFromCenter: MutableStateFlow<Float>
         get() = _offsetFromCenter
     val strokeWidth: MutableStateFlow<Float>
         get() = _strokeWidth

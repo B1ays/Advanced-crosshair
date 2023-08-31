@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.awt.ComposePanel
+import androidx.compose.ui.window.AwtWindow
+import kotlinx.coroutines.flow.MutableStateFlow
 import uk.oczadly.karl.csgsi.state.components.Weapon
 import java.awt.Color
 import java.awt.Dimension
@@ -23,6 +25,7 @@ fun CrosshairWindow(
     position: Point
 ) {
     //Crosshair parameters
+    val mouseEvent by (crosshairState.mouseEventsSource ?: MutableStateFlow(0)).collectAsState()
     val onlyWithSniperRiffle by crosshairState.onlyWithSniperRiffle.collectAsState()
     val moveOnShooting by crosshairState.moveOnShooting.collectAsState()
     val isEnabled by crosshairState.isShowed.collectAsState()
@@ -54,37 +57,38 @@ fun CrosshairWindow(
         }
     }
 
-    val jFrame = remember {
-        JFrame.setDefaultLookAndFeelDecorated(true)
-        JFrame("Crosshair").apply {
-            preferredSize = Dimension(OVERLAY_SIZE, OVERLAY_SIZE)
-            location = position
-            isAlwaysOnTop = true
-            isUndecorated = true
+    AwtWindow(
+        visible = true,
+        create = {
+            JFrame.setDefaultLookAndFeelDecorated(true)
+            JFrame("Crosshair").apply {
+                preferredSize = Dimension(OVERLAY_SIZE, OVERLAY_SIZE)
+                location = position
+                isAlwaysOnTop = true
+                isUndecorated = true
 
-            contentPane = overlay
-            setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE)
-            pack()
-            isVisible = true
-            background = Color(0, 0, 0, 0)
-            setTransparent(rootPane.parent)
+                contentPane = overlay
+                setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE)
+                pack()
+                background = Color(0, 0, 0, 0)
+                setTransparent(rootPane.parent)
+            }
+        },
+        dispose = {
+            it.dispose()
+        },
+        update = {
+            overlay.isVisible = if(onlyWithSniperRiffle) {
+                playerState.inventory?.activeItem?.type?.get() == Weapon.Type.SNIPER_RIFLE && isEnabled
+            } else {
+                isEnabled
+            }
+            with(overlay) {
+                paintComponent(graphics)
+            }
+            it.repaint()
         }
-    }
-    SideEffect {
-        with(overlay) {
-            paintComponents(graphics)
-        }
-        jFrame.repaint()
-
-    }
-    LaunchedEffect(isEnabled, onlyWithSniperRiffle, playerState) {
-        println("Change visibility settings")
-        jFrame.isVisible = if(onlyWithSniperRiffle) {
-            playerState.inventory?.activeItem?.type?.get() == Weapon.Type.SNIPER_RIFLE && isEnabled
-        } else {
-            isEnabled
-        }
-    }
+    )
 }
 
 @Suppress("UNUSED_EXPRESSION")

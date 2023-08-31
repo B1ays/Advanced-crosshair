@@ -16,7 +16,7 @@ class Crosshair(
     private val lineLength: Int get() = crosshairState.lineLength.value
     private val type: CrosshairType get() = crosshairState.type.value
 
-    override fun paintComponent(g: Graphics) {
+    public override fun paintComponent(g: Graphics) {
         val w = OVERLAY_SIZE
         val h = OVERLAY_SIZE
         val g2 = g.create() as Graphics2D

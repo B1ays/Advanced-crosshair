@@ -12,6 +12,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.onPointerEvent
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun CursorListenedIcon(
     imageVector: ImageVector,

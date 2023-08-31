@@ -16,7 +16,6 @@ repositories {
 dependencies {
     implementation(compose.desktop.currentOs)
 
-    /*implementation("com.github.kwhat:jnativehook:2.2.2")*/
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.7.3")
 
     implementation("com.github.ajalt.colormath:colormath:3.3.2")

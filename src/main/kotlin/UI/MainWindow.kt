@@ -4,6 +4,7 @@ import Data.CrosshairState
 import UI.Components.CursorListenedIcon
 import UI.Icons.Icons
 import UI.Icons.icons.*
+import UI.Screens.CSGOIntegrationScreen
 import UI.Screens.ColorSettingsScreen
 import UI.Screens.MainScreen
 import UI.Theme.*
@@ -63,8 +64,8 @@ fun MainWindow(
             ) {
                 Spacer(modifier = Modifier.height(10.dp))
                 IconToggleButton(
-                    isCrosshairEnabled,
-                    onCheckedChange = {
+                        isCrosshairEnabled,
+                        onCheckedChange = {
                         with(crosshairState) {
                             if (it) show() else hide()
                         }
@@ -85,9 +86,8 @@ fun MainWindow(
                     color = accentSecondary
                 )
                 Spacer(modifier = Modifier.height(6.dp))
-                IconToggleButton(
-                    checked = navigator?.let { it.lastOrNull is MainScreen } == true,
-                    onCheckedChange = {
+                IconButton(
+                    onClick = {
                         navigator?.navigateTo(MainScreen(crosshairState))
                     },
                     modifier = Modifier
@@ -100,10 +100,8 @@ fun MainWindow(
                         inactiveTint = accentPrimary
                     )
                 }
-                Spacer(modifier = Modifier.height(6.dp))
-                IconToggleButton(
-                    checked = navigator?.let { it.lastOrNull is ColorSettingsScreen } == true,
-                    onCheckedChange = {
+                IconButton(
+                    onClick = {
                         navigator?.navigateTo(ColorSettingsScreen(crosshairState))
                     },
                     modifier = Modifier
@@ -112,6 +110,20 @@ fun MainWindow(
                         Icons.Palette,
                         contentDescription = null,
                         modifier = Modifier.size(30.dp),
+                        activeTint = accentLight,
+                        inactiveTint = accentPrimary
+                    )
+                }
+                IconButton(
+                    onClick = {
+                        navigator?.navigateTo(CSGOIntegrationScreen())
+                    },
+                    modifier = Modifier
+                ) {
+                    CursorListenedIcon(
+                        Icons.CounterStrike,
+                        contentDescription = null,
+                        modifier = Modifier.size(40.dp),
                         activeTint = accentLight,
                         inactiveTint = accentPrimary
                     )

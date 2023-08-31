@@ -1,5 +1,6 @@
 
 import DI.initKoin
+import Data.CSGOEvents
 import Data.CrosshairState
 import Data.OVERLAY_SIZE
 import UI.CrosshairWindow
@@ -14,8 +15,8 @@ import java.awt.Toolkit
 fun main() {
     initKoin()
 
-    /*val csgoEvents: CSGOEvents by inject(CSGOEvents::class.java)
-    startGSIServer(csgoEvents)*/
+    val csgoEvents: CSGOEvents by inject(CSGOEvents::class.java)
+    /*startGSIServer(csgoEvents)*/
 
     val mouseEvents = MutableStateFlow(NOBUTTON)
     registerMouseEventListener { button ->
@@ -31,11 +32,13 @@ fun main() {
     application {
         CrosshairWindow(
             crosshairState,
+            csgoEvents,
             Point(
                 (width/2)-(OVERLAY_SIZE/2),
                 (height/2)-(OVERLAY_SIZE/2)
             )
         )
         MainWindow(::exitApplication)
+        /*StatisticWindow(csgoEvents)*/
     }
 }

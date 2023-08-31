@@ -14,6 +14,9 @@ class CrosshairState {
     private val _strokeWidth = MutableStateFlow(2F)
     private val _type = MutableStateFlow<CrosshairType>(CrosshairType.Standart)
 
+    private val _onlyWithSniperRiffle = MutableStateFlow(false)
+    private val _moveOnShooting = MutableStateFlow(false)
+
     val isShowed: MutableStateFlow<Boolean>
         get() = _isShowed
     val color: MutableStateFlow<Color>
@@ -22,12 +25,16 @@ class CrosshairState {
         get() = _lineLength
     val offsetFromCenter: MutableStateFlow<Int>
         get() = _offsetFromCenter
-    val strokeWidth:  MutableStateFlow<Float>
+    val strokeWidth: MutableStateFlow<Float>
         get() = _strokeWidth
-    val type:  MutableStateFlow<CrosshairType>
+    val type: MutableStateFlow<CrosshairType>
         get() = _type
     val mouseEventsSource: MutableStateFlow<Int>?
         get() = _mouseEventsSource
+    val onlyWithSniperRiffle: MutableStateFlow<Boolean>
+        get() = _onlyWithSniperRiffle
+    val moveOnShooting: MutableStateFlow<Boolean>
+        get() = _moveOnShooting
 
     fun onKeyEvent(keyEvent: KeyEvent): Boolean {
         return true

@@ -19,6 +19,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.FrameWindowScope
 import androidx.compose.ui.window.Window
@@ -154,34 +155,43 @@ private fun FrameWindowScope.WindowFrame(
                 .fillMaxWidth()
                 .height(30.dp)
                 .background(backgroundColorDark),
-            horizontalArrangement = Arrangement.End,
+            horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            IconButton(
-                modifier = Modifier.fillMaxHeight(),
-                onClick = { window.minimize() }
-            ) {
-                CursorListenedIcon(
-                    modifier = Modifier.size(16.dp),
-                    imageVector = Icons.WindowMinimize,
-                    contentDescription = null,
-                    activeTint = accentLight,
-                    inactiveTint = accentDark
-                )
+            /*Spacer(modifier = Modifier.width(10.dp))*/
+            Text(
+                text = "Crosshair settings",
+                color = accentLight,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(horizontal = 10.dp)
+            )
+            Row {
+                IconButton(
+                    modifier = Modifier.fillMaxHeight(),
+                    onClick = { window.minimize() }
+                ) {
+                    CursorListenedIcon(
+                        modifier = Modifier.size(16.dp),
+                        imageVector = Icons.WindowMinimize,
+                        contentDescription = null,
+                        activeTint = accentLight,
+                        inactiveTint = accentDark
+                    )
+                }
+                IconButton(
+                    onClick = onClose,
+                    modifier = Modifier.fillMaxHeight(),
+                ) {
+                    CursorListenedIcon(
+                        modifier = Modifier.size(16.dp),
+                        imageVector = Icons.Cross,
+                        contentDescription = null,
+                        activeTint = accentLight,
+                        inactiveTint = accentDark
+                    )
+                }
+                Spacer(modifier = Modifier.width(10.dp))
             }
-            IconButton(
-                onClick = onClose,
-                modifier = Modifier.fillMaxHeight(),
-            ) {
-                CursorListenedIcon(
-                    modifier = Modifier.size(16.dp),
-                    imageVector = Icons.Cross,
-                    contentDescription = null,
-                    activeTint = accentLight,
-                    inactiveTint = accentDark
-                )
-            }
-            Spacer(modifier = Modifier.width(10.dp))
         }
     }
 }

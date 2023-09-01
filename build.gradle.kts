@@ -68,7 +68,7 @@ compose.desktop {
 
         nativeDistributions {
             targetFormats(TargetFormat.Exe)
-            packageName = "Crosshair"
+            packageName = "Advanced crosshair"
             packageVersion = "1.0.0"
         }
     }

@@ -3,6 +3,7 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 plugins {
     kotlin("jvm")
     id("org.jetbrains.compose")
+    kotlin("plugin.serialization") version "1.9.0"
 }
 
 group = "ru.blays"
@@ -25,8 +26,13 @@ dependencies {
     // Native Input events hook
     implementation("com.github.kwhat:jnativehook:2.2.2")
 
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.7.3")
+    // Kotlin
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+    implementation(kotlin("reflect"))
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:1.6.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.6.0")
 
+    // Java native access
     implementation("net.java.dev.jna:jna-platform:5.13.0")
 
     // Koin
@@ -47,6 +53,9 @@ dependencies {
     // Cs:go integration
     implementation("uk.oczadly.karl:csgo-gsi:1.6.0")
     implementation("com.google.code.gson:gson:2.8.6")
+
+    // DataStore
+    implementation("androidx.datastore:datastore-preferences-core:1.1.0-alpha04")
 
     implementation(project(":color-picker"))
 }

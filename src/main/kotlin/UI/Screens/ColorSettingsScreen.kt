@@ -2,6 +2,8 @@ package UI.Screens
 
 import Data.CrosshairState
 import Data.DefaultPadding
+import DataStore.ColorValue
+import DataStore.Stores.CrosshairDSImpl
 import UI.Crosshair
 import UI.Theme.backgroundColor
 import UI.Theme.standartColors
@@ -20,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import com.godaddy.android.colorpicker.ClassicColorPicker
 import com.godaddy.android.colorpicker.rememberColorPickerState
+import org.koin.compose.koinInject
 
 @OptIn(ExperimentalLayoutApi::class)
 class ColorSettingsScreen(
@@ -36,6 +39,7 @@ class ColorSettingsScreen(
         val colorPickerState = rememberColorPickerState(
             crosshairState.color.value.toHsvColor()
         )
+        val crosshairSettings: CrosshairDSImpl = koinInject()
         colorPickerState.color.value
         Column(modifier = Modifier.fillMaxSize()) {
             Row(
@@ -49,7 +53,17 @@ class ColorSettingsScreen(
                         .size(200.dp),
                     colorPickerState
                 ) { hsvColor ->
-                    crosshairState.color.value = hsvColor.toAwtColor()
+                    with(hsvColor.toAwtColor()) {
+                        crosshairState.color.value = this
+                        crosshairSettings.color = ColorValue(
+                            red,
+                            green,
+                            blue,
+                            alpha
+                        )
+                    }
+
+
                 }
                 Box(
                     modifier = Modifier
@@ -80,7 +94,15 @@ class ColorSettingsScreen(
                         color = color
                     ) {
                         colorPickerState.setValue(color.toHsvColor())
-                        crosshairState.color.value = color.toAwtColor()
+                        with(color.toAwtColor()) {
+                            crosshairState.color.value = this
+                            crosshairSettings.color = ColorValue(
+                                red,
+                                green,
+                                blue,
+                                alpha
+                            )
+                        }
                     }
                 }
             }

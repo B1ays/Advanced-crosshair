@@ -3,6 +3,7 @@ package UI
 import Data.CSGOEvents
 import Data.CrosshairState
 import Data.OVERLAY_SIZE
+import DataStore.Stores.EnableWithSniperRifleDS
 import UI.Icons.CrosshairTypeIcons
 import UI.Icons.crosshairtypeicons.CrosshairStandart
 import UI.Theme.iconColor
@@ -17,7 +18,7 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.window.AwtWindow
-import kotlinx.coroutines.flow.MutableStateFlow
+import org.koin.compose.koinInject
 import uk.oczadly.karl.csgsi.state.components.Weapon
 import java.awt.Color
 import java.awt.Dimension
@@ -33,9 +34,8 @@ fun CrosshairWindow(
     position: Point
 ) {
     //Crosshair parameters
-    val mouseEvent by (crosshairState.mouseEventsSource ?: MutableStateFlow(0)).collectAsState()
-    val onlyWithSniperRiffle by crosshairState.onlyWithSniperRiffle.collectAsState()
-    val moveOnShooting by crosshairState.moveOnShooting.collectAsState()
+    val mouseEvent by crosshairState.mouseEventsSource.collectAsState()
+    val onlyWithSniperRiffle by koinInject<EnableWithSniperRifleDS>().asState()
     val isEnabled by crosshairState.isShowed.collectAsState()
     val color by crosshairState.color.collectAsState()
     val strokeWidth by crosshairState.strokeWidth.collectAsState()
@@ -50,7 +50,6 @@ fun CrosshairWindow(
 
     // For recomposition work
     onlyWithSniperRiffle
-    moveOnShooting
     isEnabled
     color
     strokeWidth
@@ -119,7 +118,6 @@ fun CrosshairWindow(
     )
 }
 
-@Suppress("UNUSED_EXPRESSION")
 @Composable
 fun StatisticWindow(csgoEvents: CSGOEvents) {
     val playerState by csgoEvents.playerState.collectAsState()

@@ -3,6 +3,7 @@ package UI.Screens
 import Data.CrosshairState
 import Data.CrosshairType
 import Data.DefaultPadding
+import DataStore.Stores.CrosshairDSImpl
 import UI.Components.CustomTabs.CustomTab
 import UI.Components.CustomTabs.CustomTabRow
 import UI.Icons.CrosshairTypeIcons
@@ -24,11 +25,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
+import org.koin.compose.koinInject
 
 class MainScreen(private val crosshairState: CrosshairState): Screen {
     @Composable
     override fun Content() {
         val crosshairType by crosshairState.type.collectAsState()
+        val crosshairSettings: CrosshairDSImpl = koinInject()
 
         CustomTabRow(
             modifier = Modifier
@@ -43,7 +46,12 @@ class MainScreen(private val crosshairState: CrosshairState): Screen {
         ) {
             CustomTab(
                 selected = crosshairType is CrosshairType.Standart,
-                onClick = { crosshairState.setType(CrosshairType.Standart) },
+                onClick = {
+                    with(CrosshairType.Standart) {
+                        crosshairState.setType(this)
+                        crosshairSettings.type = index
+                    }
+                },
                 selectedContentColor = accentLight,
                 unselectedContentColor = accentLight
             ) {
@@ -51,7 +59,12 @@ class MainScreen(private val crosshairState: CrosshairState): Screen {
             }
             CustomTab(
                 selected = crosshairType is CrosshairType.TShaped,
-                onClick = { crosshairState.setType(CrosshairType.TShaped) },
+                onClick = {
+                    with(CrosshairType.TShaped) {
+                        crosshairState.setType(this)
+                        crosshairSettings.type = index
+                    }
+                },
                 selectedContentColor = accentLight,
                 unselectedContentColor = accentLight
             ) {
@@ -59,7 +72,12 @@ class MainScreen(private val crosshairState: CrosshairState): Screen {
             }
             CustomTab(
                 selected = crosshairType is CrosshairType.Triangle,
-                onClick = { crosshairState.setType(CrosshairType.Triangle) },
+                onClick = {
+                    with(CrosshairType.Triangle) {
+                        crosshairState.setType(this)
+                        crosshairSettings.type = index
+                    }
+                },
                 selectedContentColor = accentLight,
                 unselectedContentColor = accentLight
             ) {
@@ -67,7 +85,12 @@ class MainScreen(private val crosshairState: CrosshairState): Screen {
             }
             CustomTab(
                 selected = crosshairType is CrosshairType.Circle,
-                onClick = { crosshairState.setType(CrosshairType.Circle) },
+                onClick = {
+                    with(CrosshairType.Circle) {
+                        crosshairState.setType(this)
+                        crosshairSettings.type = index
+                    }
+                },
                 selectedContentColor = accentLight,
                 unselectedContentColor = accentLight
             ) {
@@ -85,6 +108,7 @@ class MainScreen(private val crosshairState: CrosshairState): Screen {
             colors = SliderDefaults.colors(thumbColor = accentPrimary, activeTrackColor = accentDark)
         ) {
             crosshairState.lineLength.value = it
+            crosshairSettings.size = it
         }
         SliderWithTitle(
             modifier = Modifier
@@ -96,6 +120,7 @@ class MainScreen(private val crosshairState: CrosshairState): Screen {
             colors = SliderDefaults.colors(thumbColor = accentPrimary, activeTrackColor = accentDark)
         ) {
             crosshairState.offsetFromCenter.value = it
+            crosshairSettings.offset = it
         }
         SliderWithTitle(
             modifier = Modifier
@@ -107,6 +132,7 @@ class MainScreen(private val crosshairState: CrosshairState): Screen {
             colors = SliderDefaults.colors(thumbColor = accentPrimary, activeTrackColor = accentDark)
         ) {
             crosshairState.strokeWidth.value = it
+            crosshairSettings.strokeWidth = it
         }
     }
 }

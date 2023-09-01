@@ -74,4 +74,17 @@ sealed class CrosshairType {
 
     abstract val index: Int
     abstract fun Graphics2D.draw(center: Point, offset: Int, size: Int)
+
+    companion object {
+        fun getByIndex(index: Int): CrosshairType {
+            return getByIndexOrNull(index) ?: Standart
+        }
+        fun getByIndexOrNull(index: Int): CrosshairType? {
+            return CrosshairType::class.sealedSubclasses.firstOrNull {
+                it.objectInstance?.index == index
+            }
+            ?.objectInstance
+        }
+    }
+
 }

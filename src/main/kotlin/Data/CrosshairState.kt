@@ -1,21 +1,37 @@
 package Data
+import DataStore.CrosshairSettings
 import androidx.compose.ui.input.key.KeyEvent
+import com.github.kwhat.jnativehook.mouse.NativeMouseEvent.NOBUTTON
 import kotlinx.coroutines.flow.MutableStateFlow
 import java.awt.Color
 
-class CrosshairState {
+class CrosshairState(crosshairSettings: CrosshairSettings) {
 
-    private var _mouseEventsSource: MutableStateFlow<Int>? = null
+    private var _mouseEventsSource: MutableStateFlow<Int> = MutableStateFlow(NOBUTTON)
 
     private val _isShowed = MutableStateFlow(true)
-    private val _color = MutableStateFlow(Color.GREEN)
-    private val _lineLength = MutableStateFlow(10F)
-    private val _offsetFromCenter = MutableStateFlow(3F)
-    private val _strokeWidth = MutableStateFlow(2F)
-    private val _type = MutableStateFlow<CrosshairType>(CrosshairType.Standart)
-
-    private val _onlyWithSniperRiffle = MutableStateFlow(false)
-    private val _moveOnShooting = MutableStateFlow(false)
+    private val _color = MutableStateFlow(
+        with(crosshairSettings.color) {
+            Color(
+                red,
+                green,
+                blue,
+                alpha
+            )
+        }
+    )
+    private val _lineLength = MutableStateFlow(
+        crosshairSettings.size
+    )
+    private val _offsetFromCenter = MutableStateFlow(
+        crosshairSettings.offsetFromCenter
+    )
+    private val _strokeWidth = MutableStateFlow(
+        crosshairSettings.strokeWidth
+    )
+    private val _type = MutableStateFlow(
+        CrosshairType.getByIndex(crosshairSettings.typeIndex)
+    )
 
     val isShowed: MutableStateFlow<Boolean>
         get() = _isShowed
@@ -29,12 +45,8 @@ class CrosshairState {
         get() = _strokeWidth
     val type: MutableStateFlow<CrosshairType>
         get() = _type
-    val mouseEventsSource: MutableStateFlow<Int>?
+    val mouseEventsSource: MutableStateFlow<Int>
         get() = _mouseEventsSource
-    val onlyWithSniperRiffle: MutableStateFlow<Boolean>
-        get() = _onlyWithSniperRiffle
-    val moveOnShooting: MutableStateFlow<Boolean>
-        get() = _moveOnShooting
 
     fun onKeyEvent(keyEvent: KeyEvent): Boolean {
         return true

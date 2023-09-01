@@ -1,6 +1,10 @@
 package UI.Screens
 
-import Data.*
+import Data.CSGOEvents
+import Data.DefaultPadding
+import Data.DialogState
+import Data.NETCOMPORT_OPTION
+import DataStore.Stores.EnableWithSniperRifleDS
 import UI.Icons.Icons
 import UI.Icons.icons.Copy
 import UI.Icons.icons.Power
@@ -147,7 +151,7 @@ class CSGOIntegrationScreen: Screen {
 private class CSGOIntegrationSettingsSubscreen : Screen {
     @Composable
     override fun Content() {
-        val crosshairState: CrosshairState = koinInject()
+        val enableWithSniperRifleDS = koinInject<EnableWithSniperRifleDS>()
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -166,9 +170,9 @@ private class CSGOIntegrationSettingsSubscreen : Screen {
                     color = accentLight
                 )
                 Switch(
-                    checked = crosshairState.onlyWithSniperRiffle.collectAsState().value,
+                    checked = enableWithSniperRifleDS.asState().value,
                     onCheckedChange = {
-                        crosshairState.onlyWithSniperRiffle.value = it
+                        enableWithSniperRifleDS.value = it
                     },
                     colors = SwitchDefaults.colors(
                         checkedThumbColor = accentPrimary,
